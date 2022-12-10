@@ -6,4 +6,4 @@ RUN apk add bind-tools
 
 COPY ./docker-entrypoint.sh /
 
-ENTRYPOINT ["/bin/bash", "/docker-entrypoint.sh"]
+ENTRYPOINT ["/bin/sh", "/docker-entrypoint.sh"]

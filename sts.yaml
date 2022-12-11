@@ -1,0 +1,87 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: d
+spec:
+  selector:
+    matchLabels:
+      app: debug
+  serviceName: "debug"
+  replicas: 3
+  minReadySeconds: 1
+  podManagementPolicy: Parallel
+  template:
+    metadata:
+      labels:
+        app: debug
+    spec:
+      terminationGracePeriodSeconds: 1
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      initContainers:
+        - name: init-probe
+          image: seemscloud/debug:latest
+          imagePullPolicy: Always
+          command: [ "/bin/bash", "-c" ]
+          args:
+            - |-
+              echo Container Init;
+              touch /mnt/init/probefile;
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            runAsGroup: 1000
+            allowPrivilegeEscalation: false
+            privileged: false
+          volumeMounts:
+            - name: tmpdir
+              mountPath: /mnt/init
+      containers:
+        - name: debug
+          image: seemscloud/debug:latest
+          imagePullPolicy: Always
+          command: [ "/bin/bash", "-c" ]
+          args:
+            - |-
+              echo Container Debug;
+              /bin/bash /docker-entrypoint.sh
+          workingDir: /
+          readinessProbe:
+            initialDelaySeconds: 1
+            periodSeconds: 1
+            timeoutSeconds: 1
+            successThreshold: 1
+            failureThreshold: 1
+            exec:
+              command: [ "test", "-f", "/mnt/init/probefile" ]
+          startupProbe:
+            initialDelaySeconds: 1
+            periodSeconds: 1
+            timeoutSeconds: 1
+            successThreshold: 1
+            failureThreshold: 1
+            exec:
+              command: [ "test", "-f", "/mnt/init/probefile" ]
+          livenessProbe:
+            initialDelaySeconds: 1
+            periodSeconds: 1
+            timeoutSeconds: 1
+            successThreshold: 1
+            failureThreshold: 1
+            exec:
+              command: [ "test", "-f", "/mnt/init/probefile" ]
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            runAsGroup: 1000
+            allowPrivilegeEscalation: false
+            privileged: false
+          volumeMounts:
+            - name: tmpdir
+              mountPath: /mnt/init
+      volumes:
+        - name: tmpdir
+          emptyDir: { }

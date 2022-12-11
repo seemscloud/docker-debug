@@ -20,7 +20,7 @@ function mgmt() {
     docker build --rm --force-rm --pull --tag "${REPOSITORY}" "${PROJECT_PATH}/${BUILD_DIR}"
     ;;
   test)
-    mgmt rm container
+    mgmt rm-container
     docker run --detach --interactive --rm --name "${DOCKER_REPO}" "${REPOSITORY}"
     docker exec -it ${DOCKER_REPO} bash
     ;;

@@ -18,7 +18,7 @@ RUN apk add bind-tools iperf3 busybox-extras curl fio
 
 COPY ./docker-entrypoint.sh /
 
-WORKDIR "/"
+WORKDIR "${USER_HOME}"
 USER "${USER_NAME}"
 
 ENTRYPOINT ["/bin/bash", "/docker-entrypoint.sh"]

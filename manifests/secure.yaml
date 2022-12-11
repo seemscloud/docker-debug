@@ -7,7 +7,7 @@ spec:
     matchLabels:
       app: debug
   serviceName: "debug"
-  replicas: 3
+  replicas: 1
   minReadySeconds: 1
   podManagementPolicy: Parallel
   template:

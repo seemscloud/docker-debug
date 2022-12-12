@@ -1,12 +1,18 @@
+KUBECTL_COMMAND="${1}"
+NAMESPACE="${2}"
+
+kubectl "${KUBECTL_COMMAND}" -f - <<EndOfMessage
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: debug
+  namespace: "${NAMESPACE}"
 ---
 apiVersion: v1
 kind: Pod
 metadata:
   name: debug
+  namespace: "${NAMESPACE}"
 spec:
   terminationGracePeriodSeconds: 1
   serviceAccountName: debug
@@ -47,3 +53,4 @@ roleRef:
   kind: ClusterRole
   name: debug
   apiGroup: rbac.authorization.k8s.io
+EndOfMessage

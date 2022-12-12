@@ -1,11 +1,7 @@
-NAMESPACE="default"
-
-kubectl apply -f - << EndOfMessage
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: wide
-  namespace: "${NAMESPACE}"
+  name: debug
 ---
 apiVersion: v1
 kind: Pod
@@ -13,6 +9,7 @@ metadata:
   name: debug
 spec:
   terminationGracePeriodSeconds: 1
+  serviceAccountName: debug
   securityContext:
     runAsNonRoot: false
     runAsUser: 0
@@ -32,7 +29,7 @@ spec:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: wide
+  name: debug
 rules:
   - apiGroups: [ "*" ]
     resources: [ "*" ]
@@ -41,13 +38,12 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: wide
+  name: debug
 subjects:
   - kind: ServiceAccount
-    name: wide
-    namespace: workspace
+    name: debug
+    namespace: default
 roleRef:
   kind: ClusterRole
-  name: wide
+  name: debug
   apiGroup: rbac.authorization.k8s.io
-EndOfMessage

@@ -1,15 +1,12 @@
 #!/bin/bash
 
-PWD_PATH="$(pwd)"
-SCRIPT_DIR="$(dirname "${0}")"
-BUILD_DIR="docker"
-PROJECT_PATH="${PWD_PATH}/${SCRIPT_DIR}"
+PROJECT_PATH="$(pwd)/$(dirname "${0}")"
+BUILD_DIR="${2}"
 
 DOCKER_REGISTRY="seemscloud"
-DOCKER_REPO="debug"
 DOCKER_TAG="latest"
 
-REPOSITORY="${DOCKER_REGISTRY}/${DOCKER_REPO}:${DOCKER_TAG}"
+REPOSITORY="${DOCKER_REGISTRY}/${BUILD_DIR}:${DOCKER_TAG}"
 
 function mgmt() {
   case "${1}" in
@@ -21,15 +18,15 @@ function mgmt() {
     ;;
   test)
     mgmt rm-container
-    docker run --detach --interactive --rm --name "${DOCKER_REPO}" "${REPOSITORY}"
-    docker exec -it ${DOCKER_REPO} bash
+    docker run --detach --interactive --rm --name "${BUILD_DIR}" "${REPOSITORY}"
+    docker exec -it "${BUILD_DIR}" bash
     ;;
   rm)
     mgmt rm-container
     docker image rm "${REPOSITORY}"
     ;;
   rm-container)
-    docker container rm --force "${DOCKER_REPO}"
+    docker container rm --force "${BUILD_DIR}"
     ;;
   push)
     mgmt build
@@ -43,4 +40,4 @@ function mgmt() {
   esac
 }
 
-mgmt "${1}" "${2}"
+mgmt "${1}" "${BUILD_DIR}"

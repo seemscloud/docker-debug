@@ -1,3 +1,4 @@
+```bash
 KUBECTL_COMMAND="${1}"
 NAMESPACE="${2}"
 
@@ -54,3 +55,4 @@ roleRef:
   name: debug
   apiGroup: rbac.authorization.k8s.io
 EndOfMessage
+```

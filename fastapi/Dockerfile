@@ -24,7 +24,7 @@ WORKDIR "${USER_HOME}"
 USER "${USER_NAME}"
 
 RUN python3 -m pip install --upgrade pip && \
-    python3 -m pip install --upgrade hypercorn fastapi
+    python3 -m pip install --upgrade hypercorn uvicorn fastapi
 
 COPY ./src/* .
 

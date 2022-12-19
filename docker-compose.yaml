@@ -34,6 +34,7 @@ services:
       ENDPOINT: "grpc-server:9443"
       # GRPC_VERBOSITY: "debug"
       # GRPC_TRACE: all
+  # Hypercorn support HTTP2
   fastapi-hypercorn:
     build:
       context: ./fastapi
@@ -43,6 +44,7 @@ services:
     environment:
       SERVER_TYPE: "hypercorn"
       SERVER_PORT: "8081"
+  # Uvicorn support only HTTP1
   fastapi-uvicorn:
     build:
       context: ./fastapi

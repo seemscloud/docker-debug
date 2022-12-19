@@ -32,7 +32,6 @@ services:
     environment:
       USE_TLS: "true"
       ENDPOINT: "grpc-server:9443"
-      GRPC_DEFAULT_SSL_ROOTS_FILE_PATH: "/app/ca.crt.pem"
       # GRPC_VERBOSITY: "debug"
       # GRPC_TRACE: all
   fastapi-hypercorn:

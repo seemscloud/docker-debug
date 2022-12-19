@@ -6,6 +6,8 @@ ARG USER_UID="1000"
 ARG GROUP_NAME="${USER_NAME}"
 ARG GROUP_UID="${USER_UID}"
 
+ENV GRPC_DEFAULT_SSL_ROOTS_FILE_PATH="/app/ca.crt.pem"
+
 RUN addgroup -g "${GROUP_UID}" "${GROUP_NAME}" && \
     adduser -G "${GROUP_NAME}" -s /bin/bash -u "${USER_UID}" -h "${USER_HOME}" "${USER_NAME}" -D
 

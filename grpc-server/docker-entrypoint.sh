@@ -35,6 +35,8 @@ function logger() {
 # Defaults
 
 if [ -z "${LISTEN_PORT}" ]; then
+  logger info "'LISTEN_PORT' is not set, using default port '9000'"
+
   LISTEN_PORT="9000"
 fi
 

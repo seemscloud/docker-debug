@@ -32,6 +32,13 @@ function logger() {
   logger_msg "${2}" "${1}"
 }
 
+# Defaults
+
+if [ -z "${ENDPOINT}" ]; then
+  logger info "'ENDPOINT' is not set, using default endpoint 'localhost:9000'"
+
+  ENDPOINT="localhost:9000"
+fi
 # Main
 
 logger info "Connection to '${ENDPOINT}', TLS: '${USE_TLS}'.."

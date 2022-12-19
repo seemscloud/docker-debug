@@ -10,6 +10,8 @@ services:
     environment:
       LISTEN_PORT: "9000"
       LISTEN_PORT_TLS: "9443"
+      # GRPC_VERBOSITY: "debug"
+      # GRPC_TRACE: all
   grpc-client:
     build:
       context: ./grpc-client

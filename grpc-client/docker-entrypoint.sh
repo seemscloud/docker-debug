@@ -39,6 +39,7 @@ if [ -z "${ENDPOINT}" ]; then
 
   ENDPOINT="localhost:9000"
 fi
+
 # Main
 
 logger info "Connection to '${ENDPOINT}', TLS: '${USE_TLS}'.."

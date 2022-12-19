@@ -1,0 +1,52 @@
+version: '3.9'
+
+services:
+  grpc-server:
+    build:
+      context: ./grpc
+    container_name: grpc-server
+    hostname: grpc-server
+    restart: always
+    environment:
+      SERVER_TYPE: "server"
+      SERVER_PORT: "9000"
+  grpc-client:
+    build:
+      context: ./grpc
+    container_name: grpc-client
+    hostname: grpc-client
+    restart: always
+    environment:
+      SERVER_TYPE: "client"
+      ENDPOINT: "grpc-server:9000"
+  fastapi-hypercorn:
+    build:
+      context: ./fastapi
+    container_name: fastapi-hypercorn
+    hostname: fastapi-hypercorn
+    restart: always
+    environment:
+      SERVER_TYPE: "hypercorn"
+      SERVER_PORT: "8081"
+  fastapi-uvicorn:
+    build:
+      context: ./fastapi
+    container_name: fastapi-uvicorn
+    hostname: fastapi-uvicorn
+    restart: always
+    environment:
+      SERVER_TYPE: "uvicorn"
+      SERVER_PORT: "8081"
+  debug:
+    build:
+      context: ./debug
+    container_name: debug
+    hostname: debug
+    restart: always
+    entrypoint: [ "/bin/bash", "-c" ]
+    command:
+      - |
+        while true; do
+          echo "`date +"%Y-%m-%d %H:%M:%S"`  Debug Container.."
+          sleep 1;
+        done

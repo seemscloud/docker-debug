@@ -34,12 +34,12 @@ function logger() {
 
 # Main
 
-if [ "${SERVER_TYPE}" == "hypercorn" ]; then
-  logger info "Starting '${SERVER_TYPE}' server.."
+if [ "${SERVER_TYPE}" == "server" ]; then
+  logger info "Starting '${SERVER_TYPE}' on port '${SERVER_PORT}'.."
 
-  hypercorn --bind "0.0.0.0:${SERVER_PORT}" app:app
-elif [ "${SERVER_TYPE}" == "uvicorn" ]; then
-  logger info "Starting '${SERVER_TYPE}' server.."
+  python3 -u server.py
+elif [ "${SERVER_TYPE}" == "client" ]; then
+  logger info "Connection '${SERVER_TYPE}' to '${ENDPOINT}'.."
 
-  uvicorn --host "0.0.0.0" --port "${SERVER_PORT}" app:app
+  python3 -u client.py
 fi

@@ -3,22 +3,36 @@ version: '3.9'
 services:
   grpc-server:
     build:
-      context: ./grpc
+      context: ./grpc-server
     container_name: grpc-server
     hostname: grpc-server
     restart: always
     environment:
-      SERVER_TYPE: "server"
-      SERVER_PORT: "9000"
+      LISTEN_PORT: "9000"
+      LISTEN_PORT_TLS: "9443"
   grpc-client:
     build:
-      context: ./grpc
+      context: ./grpc-client
     container_name: grpc-client
     hostname: grpc-client
     restart: always
     environment:
-      SERVER_TYPE: "client"
+      USE_TLS: "false"
       ENDPOINT: "grpc-server:9000"
+      # GRPC_VERBOSITY: "debug"
+      # GRPC_TRACE: all
+  grpc-client-tls:
+    build:
+      context: ./grpc-client
+    container_name: grpc-client-tls
+    hostname: grpc-client-tls
+    restart: always
+    environment:
+      USE_TLS: "true"
+      ENDPOINT: "grpc-server:9443"
+      GRPC_DEFAULT_SSL_ROOTS_FILE_PATH: "/app/ca.crt.pem"
+      # GRPC_VERBOSITY: "debug"
+      # GRPC_TRACE: all
   fastapi-hypercorn:
     build:
       context: ./fastapi

@@ -1,7 +1,7 @@
 FROM python:3.10-alpine
 
-ARG USER_HOME="/tmp/debug"
-ARG USER_NAME="debug"
+ARG USER_HOME="/app"
+ARG USER_NAME="grpc"
 ARG USER_UID="1000"
 ARG GROUP_NAME="${USER_NAME}"
 ARG GROUP_UID="${USER_UID}"

@@ -32,14 +32,18 @@ function logger() {
   logger_msg "${2}" "${1}"
 }
 
+# Defaults
+
+if [ -z "${LISTEN_PORT}" ]; then
+  LISTEN_PORT="9000"
+fi
+
 # Main
 
-if [ "${SERVER_TYPE}" == "server" ]; then
-  logger info "Starting '${SERVER_TYPE}' on port '${SERVER_PORT}'.."
+logger info "Starting unsecured port on '${LISTEN_PORT}'.."
 
-  python3 -u server.py
-elif [ "${SERVER_TYPE}" == "client" ]; then
-  logger info "Connection '${SERVER_TYPE}' to '${ENDPOINT}'.."
-
-  python3 -u client.py
+if [ ! -z "${LISTEN_PORT_TLS}" ]; then
+  logger info "Starting secured port on '${LISTEN_PORT_TLS}'.."
 fi
+
+python3 -u server.py

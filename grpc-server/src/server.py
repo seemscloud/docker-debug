@@ -1,7 +1,10 @@
 import os
+import threading
 from concurrent import futures
 
+import grpc
 import grpc.experimental
+from grpc_reflection.v1alpha import reflection
 
 protos, services = grpc.protos_and_services("helloworld.proto")
 
@@ -21,7 +24,16 @@ class Greeter(services.GreeterServicer):
 
 if __name__ == "__main__":
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
-    services.add_GreeterServicer_to_server(Greeter(), server)
+
+    greater = Greeter()
+
+    services.add_GreeterServicer_to_server(greater, server)
+
+    SERVICE_NAMES = (
+        protos.DESCRIPTOR.services_by_name['Greeter'].full_name,
+        reflection.SERVICE_NAME,
+    )
+    reflection.enable_server_reflection(SERVICE_NAMES, server)
 
     if 'LISTEN_PORT_TLS' in os.environ:
         server_port_tls = "0.0.0.0:{}".format(os.environ["LISTEN_PORT_TLS"])

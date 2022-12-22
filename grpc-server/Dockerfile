@@ -20,7 +20,7 @@ WORKDIR "${USER_HOME}"
 USER "${USER_NAME}"
 
 RUN python3 -m pip install --upgrade pip && \
-    python3 -m pip install --upgrade grpcio grpcio-tools
+    python3 -m pip install --upgrade grpcio grpcio-tools grpcio-reflection grpcio-health-checking
 
 COPY ./src .
 

@@ -25,7 +25,7 @@ RUN rm -rf /bin
 COPY --from=builder /bin /bin
 
 RUN set -ex; \
-    apk add --no-cache nfs-utils; \
+    apk add --no-cache nfs-utils openrc; \
     echo 'hosts: files dns' > /etc/nsswitch.conf;
 
 VOLUME /var/lib/kubelet

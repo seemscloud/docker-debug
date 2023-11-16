@@ -1,42 +1,28 @@
-ARG VERSION
-FROM rancher/k3s:v1.25.6-k3s1 as k3s
-FROM alpine:3.18.4 as builder
-
-ARG TARGETPLATFORM
-ARG VERSION
-ARG CHANNEL
-
-COPY --from=k3s /bin /bins
-
-# RUN set -ex; \ # Maybe this will work again someday
-RUN set -x; \
-    mv /bins/aux /bin/aux; \
-    mv -n /bins/* /bin; \
-    rm -rf /bins
-
 FROM alpine:3.18.4
 
-ARG TARGETPLATFORM
-ARG VERSION
-ARG CHANNEL
-
 RUN rm -rf /bin
-
-COPY --from=builder /bin /bin
+COPY --from=rancher/k3s:v1.27.4-k3s1 /bin /bin
 
 RUN set -ex; \
-    apk add --no-cache nfs-utils openrc; \
-    echo 'hosts: files dns' > /etc/nsswitch.conf;
+    apk add --no-cache iptables ip6tables nfs-utils rpcbind openrc bash; \
+    echo 'hosts: files dns' > /etc/nsswitch.conf
+
+RUN rc-update add rpcbind && \
+    rc-update add nfs
+
+RUN mkdir -p /run/openrc && \
+    touch /run/openrc/softlevel
 
 VOLUME /var/lib/kubelet
 VOLUME /var/lib/rancher/k3s
 VOLUME /var/lib/cni
 VOLUME /var/log
 
-ENV PATH="$PATH:/bin/aux"
+ENV PATH="${PATH}:/bin/aux"
 ENV CRI_CONFIG_FILE="/var/lib/rancher/k3s/agent/etc/crictl.yaml"
 
-ENTRYPOINT ["/bin/k3s"]
-CMD ["agent"]
+COPY ./k3d-entrypoint-nfs.sh /bin
+RUN chmod +x /bin/k3d-entrypoint-nfs.sh
 
-LABEL org.opencontainers.image.source="https://github.com/k3s-io/k3s"
+ENTRYPOINT ["/bin/k3d-entrypoint-nfs.sh"]
+CMD ["agent"]

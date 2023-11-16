@@ -1,9 +1,6 @@
 ```bash
-./mgmt.sh seemscloud latest test b
-
-./mgmt.sh seemscloud latest test t
-
-./mgmt.sh seemscloud latest test p
-
-./mgmt.sh seemscloud latest test c
+mgmt.sh seemscloud v1.25.6-k3s1 k3s b
+mgmt.sh seemscloud v1.25.6-k3s1 k3s t
+mgmt.sh seemscloud v1.25.6-k3s1 k3s p
+mgmt.sh seemscloud v1.25.6-k3s1 k3s c
 ```

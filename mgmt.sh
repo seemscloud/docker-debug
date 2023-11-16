@@ -1,43 +1,60 @@
 #!/bin/bash
 
-PROJECT_PATH="$(pwd)/$(dirname "${0}")"
-BUILD_DIR="${2}"
+BASE_DIR="$(pwd)/$(dirname "${0}")"
+IMAGE_REGISTRY="${1}"
+IMAGE_TAG="${2}"
+IMAGE_NAME="${3}"
+COMMAND="${4}"
 
-DOCKER_REGISTRY="seemscloud"
-DOCKER_TAG="latest"
+REPOSITORY="${IMAGE_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}"
 
-REPOSITORY="${DOCKER_REGISTRY}/${BUILD_DIR}:${DOCKER_TAG}"
-
-function mgmt() {
-  case "${1}" in
-  build)
-    docker build --rm --force-rm --pull --no-cache --tag "${REPOSITORY}" "${PROJECT_PATH}/${BUILD_DIR}"
-    ;;
-  cache)
-    docker build --rm --force-rm --pull --tag "${REPOSITORY}" "${PROJECT_PATH}/${BUILD_DIR}"
-    ;;
-  test)
-    mgmt rm-container
-    docker run --detach --interactive --rm --name "${BUILD_DIR}" "${REPOSITORY}"
-    docker exec -it "${BUILD_DIR}" bash
-    ;;
-  rm)
-    mgmt rm-container
-    docker image rm "${REPOSITORY}"
-    ;;
-  rm-container)
-    docker container rm --force "${BUILD_DIR}"
-    ;;
-  push)
-    mgmt build
-    docker push "${REPOSITORY}"
-    ;;
-  prune)
-    docker container prune -f
-    docker image prune -f
-    docker system prune -f
-    ;;
-  esac
+function get(){
+  echo $(docker ps -f name="${IMAGE_NAME}" --format=json | jq -r ".ID" 2>&1)
 }
 
-mgmt "${1}" "${BUILD_DIR}"
+function kill(){
+  while true ; do
+    CONTAINER_ID="$(get)"
+
+    if [ "${CONTAINER_ID}" ] ; then
+      docker kill "${CONTAINER_ID}" --signal SIGKILL > /dev/null 2>&1
+    else
+      break
+    fi
+  done
+}
+
+function build() {
+    docker build --rm --force-rm --pull --no-cache --tag "${REPOSITORY}" "${BASE_DIR}/${IMAGE_NAME}"
+}
+
+function start(){
+  docker run --detach --interactive --rm --name "${IMAGE_NAME}" "${REPOSITORY}" > /dev/null 2>&1
+  docker exec -it "${IMAGE_NAME}" bash
+}
+
+function push(){
+  docker push "${REPOSITORY}"
+}
+
+function cleanup(){
+  docker container prune -f
+  docker image prune -f
+  docker system prune -f
+}
+
+case "${COMMAND}" in
+  b)
+    build
+  ;;
+  t)
+    start
+    kill
+  ;;
+  p)
+    push
+  ;;
+  c)
+    cleanup
+  ;;
+esac

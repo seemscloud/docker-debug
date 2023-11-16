@@ -1,22 +1,22 @@
-#### Build
+`Build`
 
 ```bash
 ./mgmt.sh seemscloud latest test b
 ```
 
-#### Test
+`Test`
 
 ```bash
 ./mgmt.sh seemscloud latest test t
 ```
 
-#### Test
+`Push`
 
 ```bash
 ./mgmt.sh seemscloud latest test p
 ```
 
-#### Cleanup
+`Cleanup`
 
 ```bash
 ./mgmt.sh seemscloud latest test c

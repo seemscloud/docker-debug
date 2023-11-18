@@ -1,4 +1,4 @@
-name: "Build Container Debug"
+name: "build-debug"
 
 on:
   push:

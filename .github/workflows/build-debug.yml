@@ -9,6 +9,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Get Latest Tag
+        id: latest-tag
+        run: |
+          git fetch --tags
+          latest_tag=$(git describe --tags `git rev-list --tags --max-count=1`)
+          echo $latest_tag
       - name: Check out the repo
         uses: actions/checkout@v2
       #      - name: Login to Docker Hub
@@ -21,9 +27,3 @@ jobs:
       #          push: true
       #          context: debug
       #          tags: seemscloud/debug:latest
-      - name: Get Latest Tag
-        id: latest-tag
-        run: |
-          git fetch --tags
-          latest_tag=$(git describe --tags `git rev-list --tags --max-count=1`)
-          echo $latest_tag

@@ -1,4 +1,4 @@
-name: build-debug
+name: "Build Container Debug"
 
 on: workflow_dispatch
 

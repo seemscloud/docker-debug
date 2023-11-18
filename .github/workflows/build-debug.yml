@@ -25,3 +25,11 @@ jobs:
         run: |
           echo "Tag name from GITHUB_REF_NAME: $GITHUB_REF_NAME"
           echo "Tag name from github.ref_name: ${{  github.ref_name }}"
+      - name: 'Get tag'
+        id: tag
+        uses: 'WyriHaximus/github-action-get-previous-tag@8a0e045f02c0a3a04e1452df58b90fc7e555e950'
+
+      - name: Set correct environment
+        run: |
+          TAG=${{ steps.tag.outputs.tag }}
+          echo "TAG=$TAG" >> "$GITHUB_ENV"

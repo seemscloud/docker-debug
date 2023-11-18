@@ -3,7 +3,7 @@ name: "Build Container Debug"
 on: workflow_dispatch
 
 jobs:
-  docker:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Set up QEMU

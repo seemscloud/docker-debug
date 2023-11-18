@@ -12,18 +12,18 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v2
       - name: Get Latest Tag
-        id: latest-tag
+        id: latesttag
         run: |
           git fetch --tags
           latest_tag=$(git describe --tags `git rev-list --tags --max-count=1`)
           echo $latest_tag
-      #      - name: Login to Docker Hub
-      #        uses: docker/login-action@v3
-      #        with:
-      #          username: ${{ secrets.DOCKERHUB_USERNAME }}
-      #          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      #      - uses: docker/build-push-action@v2
-      #        with:
-      #          push: true
-      #          context: debug
-      #          tags: seemscloud/debug:latest
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - uses: docker/build-push-action@v2
+        with:
+          push: true
+          context: debug
+          tags: seemscloud/debug:${{ steps.latesttag.outputs.latest_tag }}

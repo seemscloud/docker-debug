@@ -27,14 +27,10 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-
-
       - id: versioning
         run: |
-          env
-  #          cd build
-  #          /bin/bash ${GITHUB_WORKSPACE}/helpers/ci/get-tag.sh ${{ matrix.image }}
+          cd build
+          /bin/bash ${GITHUB_WORKSPACE}/helpers/ci/get-tag.sh ${{ matrix.image }}
   
   
 

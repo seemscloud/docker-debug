@@ -23,6 +23,7 @@ jobs:
           push: true
           context: ./images/${{ matrix.image }}
           file: ${{ matrix.dockerfile }}
+          tags: seemscloud/${{ matrix.image }}:latest
   #  versioning:
   #    steps:
   #      - name: Checkout the Repository

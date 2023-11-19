@@ -8,6 +8,8 @@ on:
 jobs:
   images:
     runs-on: ubuntu-latest
+    env:
+      DOCKER_REPO: "seemscloud"
     strategy:
       matrix:
         include:
@@ -35,7 +37,9 @@ jobs:
         run: |
           cd build/${{ matrix.image }}
           
-          /bin/bash ${GITHUB_WORKSPACE}/helpers/ci/versions.sh ${{ steps.versioning.outputs.LATEST_TAG }}
+          /bin/bash ${GITHUB_WORKSPACE}/helpers/ci/versions.sh \
+            ${{ matrix.image }} \
+            ${{ steps.versioning.outputs.LATEST_TAG }}
   #      - uses: actions/checkout@v2
   #        with:
   #          ref: ${{ steps.versioning.outputs.LATEST_TAG }}

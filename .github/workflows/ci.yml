@@ -52,6 +52,8 @@ jobs:
         run: |
           cd build/${{ matrix.image }}
           
+          git checkout main
+          git pull
           echo "${{ steps.versioning.outputs.VERSION_TAG }}" >> .versions
           
           git config --global user.name 'Versioner'

@@ -11,8 +11,8 @@ jobs:
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
-      - name: Get Latest Tag
-        id: latesttag
+      - name: Get Tag
+        id: latest-tag
         run: |
           git fetch --tags
           LATEST_TAG=$(git tag --sort=committerdate  | grep -Ei "^v[0-9]+.[0-9]+.[0-9]+$" | tail -1)
@@ -27,4 +27,4 @@ jobs:
         with:
           push: true
           context: debug
-          tags: seemscloud/debug:${{ steps.latesttag.outputs.TAG }}
+          tags: seemscloud/debug:${{ steps.latest-tag.outputs.TAG }}

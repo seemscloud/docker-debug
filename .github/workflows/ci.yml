@@ -32,6 +32,7 @@ jobs:
 
       - id: versioning
         run: |
+          env
           cd build
           /bin/bash ${GITHUB_WORKSPACE}/helpers/ci/get-tag.sh ${{ matrix.image }}
   

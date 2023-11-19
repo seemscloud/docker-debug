@@ -8,12 +8,13 @@ on:
 jobs:
   versioning:
     runs-on: ubuntu-latest
-    matrix:
-      include:
-        - image: debug
-          dockerfile: Dockerfile
-        - image: k3d
-          dockerfile: Dockerfile
+    strategy:
+      matrix:
+        include:
+          - image: debug
+            dockerfile: Dockerfile
+          - image: k3d
+            dockerfile: Dockerfile
     steps:
       - name: Checkout the Repository
         uses: actions/checkout@v2

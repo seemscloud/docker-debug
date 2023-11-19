@@ -47,20 +47,3 @@ jobs:
           cd build/${{ matrix.image }}
           
           /bin/bash ${GITHUB_WORKSPACE}/helpers/ci/versions.sh ${{ matrix.image }} ${{ steps.versioning.outputs.VERSION_TAG }}
-      - name: "[Commit] Versions"
-        run: |
-          cd build/${{ matrix.image }}
-          
-          git checkout main
-          git pull
-          
-          echo "${{ steps.versioning.outputs.VERSION_TAG }}" >> .versions
-          cat .versions | sort | uniq > .versions_BKP
-          mv .versions_BKP .versions
-          rm -f .versions_BKP
-          
-          git add .
-          git config --global user.name 'Versioner'
-          git config --global user.email 'contact@seems.cloud'
-          git commit -am "[Versioner] Bump .versions File" --allow-empty
-          git push

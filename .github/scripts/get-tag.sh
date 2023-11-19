@@ -2,7 +2,7 @@
 
 git fetch --tags
 
-LATEST_TAG=$(git tag --sort=committerdate  | grep -Ei "^[a-z0-9]{3,}-v[0-9]+.[0-9]+.[0-9]+$" | tail -1)
+LATEST_TAG=$(git tag --sort=committerdate  | grep -Ei "^[a-z0-9]{3,}-v[0-9]+.[0-9]+.[0-9]+$" | grep -Ei "^${IMAGE_NAME}-v" tail -1)
 
 if [ -z "${LATEST_TAG}" ] ; then
   echo "Failed on tag match.."

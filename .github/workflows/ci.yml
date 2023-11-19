@@ -24,8 +24,7 @@ jobs:
       - id: tag-version
         env:
           IMAGE_NAME: ${{ matrix.image }}
-        run: |
-          ls -lh ./images/${IMAGE_NAME}
+        run: /bin/bash .github/scripts/get-tag.sh
 
   #  versioning:
   #    steps:

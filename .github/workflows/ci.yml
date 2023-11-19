@@ -17,11 +17,11 @@ jobs:
             dockerfile: Dockerfile
           - image: k3s
             dockerfile: Dockerfile
-          - image: grpc-client
+          - image: grpcclient
             dockerfile: Dockerfile
-          - image: grpc-server
+          - image: grpcserver
             dockerfile: Dockerfile
-          - image: grpc-xds-server
+          - image: grpcxdsserver
             dockerfile: Dockerfile
           - image: fastapi
             dockerfile: Dockerfile

@@ -18,37 +18,46 @@ jobs:
           - image: k3s
             dockerfile: Dockerfile
     steps:
-      - name: "[ Checkout ] Build"
+      - name: "[Checkout] Build"
         uses: actions/checkout@v2
         with:
           path: build
-      - name: "[ Checkout ] Helpers"
+      - name: "[Checkout] Helpers"
         uses: actions/checkout@v2
         with:
           repository: seemscloud/github-actions-helpers
           path: helpers
-      - name: "[ Login ] Docker Hub"
+      - name: "[Login] Docker Hub"
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: "[ Script ] Get Version Tag"
+      - name: "[Script] Get Version Tag"
         id: versioning
         run: |
           cd build
           /bin/bash ${GITHUB_WORKSPACE}/helpers/ci/get-tag.sh ${{ matrix.image }}
-      - name: "[ Checkout ] Build to Tag"
+      - name: "[Checkout] Build to Tag"
         uses: actions/checkout@v2
         with:
           path: build
           ref: ${{ steps.versioning.outputs.VERSION_TAG }}
-      - name: "[ Script ] Build & Push"
-        id: test
+      - name: "[Script] Build & Push"
         run: |
           cd build/${{ matrix.image }}
           
           /bin/bash ${GITHUB_WORKSPACE}/helpers/ci/versions.sh \
             ${{ matrix.image }} ${{ steps.versioning.outputs.VERSION_TAG }}
+      - name: "[Commit] Versions"
+        run: |
+          cd build/${{ matrix.image }}
+          
+          echo "${{ steps.versioning.outputs.VERSION_TAG }}" >> .versions
+          
+          git config --global user.name 'Versioner'
+          git config --global user.email 'contact@seems.cloud'
+          git commit -am "[Versioner] Bump .versions File"
+          git push
   #      - uses: actions/checkout@v2
   #        with:
   #          ref: ${{ steps.versioning.outputs.LATEST_TAG }}
@@ -87,7 +96,3 @@ jobs:
 
 
 
-#          git config --global user.name 'Versioning'
-#          git config --global user.email 'contact@seems.cloud'
-#          git commit -am "Automated report"
-#          git push

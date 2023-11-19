@@ -42,7 +42,7 @@ jobs:
           cd build/${{ matrix.image }}
           
           /bin/bash ${GITHUB_WORKSPACE}/helpers/ci/versions.sh \
-            ${{ matrix.image }} ${{ steps.versioning.outputs.LATEST_TAG }}
+            ${{ matrix.image }} ${{ steps.versioning.outputs.VERSION_TAG }}
   #      - uses: actions/checkout@v2
   #        with:
   #          ref: ${{ steps.versioning.outputs.LATEST_TAG }}

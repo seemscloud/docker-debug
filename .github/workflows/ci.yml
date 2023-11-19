@@ -36,7 +36,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           path: build
-          ref: ${{ steps.versioning.outputs.LATEST_TAG }}
+          ref: ${{ steps.versioning.outputs.VERSION_TAG }}
       - id: test
         run: |
           cd build/${{ matrix.image }}

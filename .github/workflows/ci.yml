@@ -42,7 +42,7 @@ jobs:
         with:
           path: build
           ref: ${{ steps.versioning.outputs.VERSION_TAG }}
-      - name: "[Script] Build & Push"
+      - name: "[Script] Docker Build & Push & Version"
         run: |
           cd build/${{ matrix.image }}
           

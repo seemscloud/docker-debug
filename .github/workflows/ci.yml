@@ -44,6 +44,7 @@ jobs:
         id: versioning
         run: |
           cd build
+          
           /bin/bash ${GITHUB_WORKSPACE}/helpers/ci/get-tag.sh ${{ matrix.image }}
       - name: "[Checkout] Build to Tag"
         uses: actions/checkout@v2

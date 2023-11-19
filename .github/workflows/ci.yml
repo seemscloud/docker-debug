@@ -55,7 +55,7 @@ jobs:
           git checkout main
           git pull
           echo "${{ steps.versioning.outputs.VERSION_TAG }}" >> .versions
-          
+          git add .
           git config --global user.name 'Versioner'
           git config --global user.email 'contact@seems.cloud'
           git commit -am "[Versioner] Bump .versions File"

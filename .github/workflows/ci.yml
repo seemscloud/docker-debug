@@ -17,6 +17,8 @@ jobs:
             dockerfile: Dockerfile
     steps:
       - uses: actions/checkout@v2
+        with:
+          path: build
       - uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}

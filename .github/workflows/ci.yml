@@ -26,8 +26,6 @@ jobs:
       - name: Versioning
         id: versioning
         run: |
-          cd images
-          
           for i in `ls -d1 "${PWD}"/images/*` ; do
             echo $i
           done

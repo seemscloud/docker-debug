@@ -25,7 +25,7 @@ jobs:
         env:
           IMAGE_NAME: ${{ matrix.image }}
         run: |
-          ls -lh ./image/${IMAGE_NAME}
+          ls -lh ./images/${IMAGE_NAME}
 
   #  versioning:
   #    steps:

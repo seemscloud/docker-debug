@@ -6,7 +6,7 @@ on:
       - 'v[0-9]+.[0-9]+.[0-9]+'
 
 jobs:
-  build:
+  versioning:
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repo
@@ -14,13 +14,19 @@ jobs:
       - name: Versioning
         id: versioning
         run: /bin/bash .github/scripts/get-latest-tag.sh
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: docker/build-push-action@v2
-        with:
-          push: true
-          context: debug
-          tags: seemscloud/debug:${{ steps.versioning.outputs.TAG }}
+  #      - name: Login to Docker Hub
+  #        uses: docker/login-action@v3
+  #        with:
+  #          username: ${{ secrets.DOCKERHUB_USERNAME }}
+  #          password: ${{ secrets.DOCKERHUB_TOKEN }}
+  #      - uses: docker/build-push-action@v2
+  #        with:
+  #          push: true
+  #          context: debug
+  #          tags: seemscloud/debug:${{ steps.versioning.outputs.TAG }}
+  build-debug:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Versioning
+        id: versioning
+        run: ls -lh

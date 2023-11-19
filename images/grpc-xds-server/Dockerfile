@@ -14,14 +14,14 @@ RUN apk update && \
 
 SHELL ["/bin/bash", "-c"]
 
-COPY ./docker-entrypoint.sh /
+COPY docker-entrypoint.sh /
 
 WORKDIR "${USER_HOME}"
 USER "${USER_NAME}"
 
 RUN python3 -m pip install --upgrade pip && \
-    python3 -m pip install --upgrade grpcio grpcio-tools grpcio-reflection grpcio-health-checking
+    python3 -m pip install --upgrade grpcio grpcio-tools grpcio-reflection grpcio-health-checking protobuf
 
-COPY ./src .
+COPY src .
 
 ENTRYPOINT ["/bin/bash", "/docker-entrypoint.sh"]

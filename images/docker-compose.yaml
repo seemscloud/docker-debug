@@ -3,7 +3,7 @@ version: '3.9'
 services:
   grpc-server:
     build:
-      context: ./grpc-server
+      context: grpc-server
     container_name: grpc-server
     hostname: grpc-server
     restart: always
@@ -14,7 +14,7 @@ services:
       # GRPC_TRACE: all
   grpc-client:
     build:
-      context: ./grpc-client
+      context: grpc-client
     container_name: grpc-client
     hostname: grpc-client
     restart: always
@@ -25,7 +25,7 @@ services:
       # GRPC_TRACE: all
   grpc-client-tls:
     build:
-      context: ./grpc-client
+      context: grpc-client
     container_name: grpc-client-tls
     hostname: grpc-client-tls
     restart: always
@@ -37,7 +37,7 @@ services:
   # Hypercorn support HTTP2
   fastapi-hypercorn:
     build:
-      context: ./fastapi
+      context: fastapi
     container_name: fastapi-hypercorn
     hostname: fastapi-hypercorn
     restart: always
@@ -47,7 +47,7 @@ services:
   # Uvicorn support only HTTP1
   fastapi-uvicorn:
     build:
-      context: ./fastapi
+      context: fastapi
     container_name: fastapi-uvicorn
     hostname: fastapi-uvicorn
     restart: always
@@ -56,7 +56,7 @@ services:
       SERVER_PORT: "8081"
   debug:
     build:
-      context: ./debug
+      context: debug
     container_name: debug
     hostname: debug
     restart: always

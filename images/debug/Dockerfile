@@ -21,7 +21,7 @@ RUN apk add bind-tools iperf3 busybox-extras curl fio
 RUN wget "https://dl.k8s.io/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl" -O /usr/local/bin/kubectl && \
     chmod 0755 /usr/local/bin/kubectl
 
-COPY ./docker-entrypoint.sh /
+COPY docker-entrypoint.sh /
 
 WORKDIR "${USER_HOME}"
 USER "${USER_NAME}"

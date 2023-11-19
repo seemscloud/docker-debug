@@ -13,7 +13,7 @@ jobs:
         include:
           - image: debug
             dockerfile: Dockerfile
-          - image: k3d
+          - image: k3s
             dockerfile: Dockerfile
     steps:
       - name: Checkout the Repository

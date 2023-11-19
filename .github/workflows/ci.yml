@@ -54,8 +54,9 @@ jobs:
           git checkout main
           git pull
           
-          echo "${{ steps.versioning.outputs.VERSION_TAG }}" >> .versions_BKP
-          cat .versions_BKP | sort | uniq > .versions
+          echo "${{ steps.versioning.outputs.VERSION_TAG }}" >> .versions
+          cat .versions | sort | uniq > .versions_BKP
+          mv .versions_BKP .versions
           rm -f .versions_BKP
           
           git add .

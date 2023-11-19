@@ -54,7 +54,8 @@ jobs:
           
           git checkout main
           git pull
-          echo "${{ steps.versioning.outputs.VERSION_TAG }}" >> .versions
+          echo "${{ steps.versioning.outputs.VERSION_TAG }}" >> .versions_BKP
+          cat .versions_BKP | sort | uniq -c > .versions
           git add .
           git config --global user.name 'Versioner'
           git config --global user.email 'contact@seems.cloud'

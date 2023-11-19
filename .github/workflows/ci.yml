@@ -32,7 +32,6 @@ jobs:
 
       - id: versioning
         run: |
-          env
           cd build
           /bin/bash ${HOME}/helpers/ci/get-tag.sh ${{ matrix.image }}
   

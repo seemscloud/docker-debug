@@ -36,18 +36,13 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: "[Script] Get Version Tag"
         id: versioning
-        run: |
-          cd build
-          
-          /bin/bash ${GITHUB_WORKSPACE}/helpers/ci/get-tag.sh ${{ matrix.image }}
+        working-directory: build
+        run: /bin/bash ${GITHUB_WORKSPACE}/helpers/ci/get-tag.sh ${{ matrix.image }}
       - name: "[Checkout] Build to Tag"
         uses: actions/checkout@v2
         with:
           path: build
           ref: ${{ steps.versioning.outputs.VERSION_TAG }}
       - name: "[Script] Docker Build & Push & Version"
-        run: |
-          cd build/${{ matrix.image }}
-          
-          /bin/bash ${GITHUB_WORKSPACE}/helpers/ci/docker/build-push-version.sh \
-            ${{ matrix.image }} ${{ steps.versioning.outputs.VERSION_TAG }}
+        working-directory: build/${{ matrix.image }}
+        run: /bin/bash ${GITHUB_WORKSPACE}/helpers/ci/docker/build-push-version.sh ${{ matrix.image }} ${{ steps.versioning.outputs.VERSION_TAG }}

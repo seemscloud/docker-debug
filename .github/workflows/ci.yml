@@ -6,7 +6,7 @@ on:
       - '[a-z0-9]+-[0-9]+.[0-9]+.[0-9]+'
 
 jobs:
-  images:
+  build-images:
     runs-on: ubuntu-latest
     env:
       DOCKER_REPO: "seemscloud"
@@ -14,17 +14,11 @@ jobs:
       matrix:
         include:
           - image: debug
-            dockerfile: Dockerfile
           - image: k3s
-            dockerfile: Dockerfile
           - image: grpcclient
-            dockerfile: Dockerfile
           - image: grpcserver
-            dockerfile: Dockerfile
           - image: grpcxdsserver
-            dockerfile: Dockerfile
           - image: fastapi
-            dockerfile: Dockerfile
     steps:
       - name: "[Checkout] Build"
         uses: actions/checkout@v2

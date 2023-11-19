@@ -31,8 +31,9 @@ jobs:
         run: |
           cd build
           /bin/bash ${GITHUB_WORKSPACE}/helpers/ci/get-tag.sh ${{ matrix.image }}
-  
-  
+      - id: test
+        run: |
+          ls -lh
 
   #      - uses: actions/checkout@v2
   #        with:

@@ -22,9 +22,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - id: versioning
-        env:
-          IMAGE_NAME: ${{ matrix.image }}
-        run: /bin/bash .github/scripts/get-tag.sh
+        run: /bin/bash .github/scripts/get-tag.sh ${{ matrix.image }}
       - run: |
           echo ${{ steps.versioning.outputs.LATEST_TAG }}
   #  versioning:

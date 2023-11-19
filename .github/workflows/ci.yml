@@ -17,6 +17,14 @@ jobs:
             dockerfile: Dockerfile
           - image: k3s
             dockerfile: Dockerfile
+          - image: grpc-client
+            dockerfile: Dockerfile
+          - image: grpc-server
+            dockerfile: Dockerfile
+          - image: grpc-xds-server
+            dockerfile: Dockerfile
+          - image: fastapi
+            dockerfile: Dockerfile
     steps:
       - name: "[Checkout] Build"
         uses: actions/checkout@v2

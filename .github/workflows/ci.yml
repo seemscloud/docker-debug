@@ -6,8 +6,11 @@ on:
       - '[a-z0-9]+-v[0-9]+.[0-9]+.[0-9]+'
 
 jobs:
-  versioning:
+  images:
     runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the Repository
+        uses: actions/checkout@v2
     strategy:
       matrix:
         include:
@@ -15,21 +18,30 @@ jobs:
             dockerfile: Dockerfile
           - image: k3d
             dockerfile: Dockerfile
+  build:
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout the Repository
-        uses: actions/checkout@v2
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
+      - uses: docker/build-push-action@v2
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Versioning
-        id: versioning
-        run: |
-          for i in `ls -d1 "${PWD}"/images/*` ; do
-            echo $i
-          done
-
+          push: true
+          context: ./images/${{ matrix.image }}
+          file: ${{ matrix.dockerfile }}
+  #  versioning:
+  #    steps:
+  #      - name: Checkout the Repository
+  #        uses: actions/checkout@v2
+  #      - name: Login to Docker Hub
+  #        uses: docker/login-action@v3
+  #        with:
+  #          username: ${{ secrets.DOCKERHUB_USERNAME }}
+  #          password: ${{ secrets.DOCKERHUB_TOKEN }}
+  #      - name: Versioning
+  #        id: versioning
+  #        run: |
+  #          for i in `ls -d1 "${PWD}"/images/*` ; do
+  #            echo $i
+  #          done
+  #
 
   #      - uses: docker/build-push-action@v2
   #        with:

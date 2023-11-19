@@ -33,13 +33,16 @@ jobs:
         run: |
           cd build
           /bin/bash ${GITHUB_WORKSPACE}/helpers/ci/get-tag.sh ${{ matrix.image }}
+      - uses: actions/checkout@v2
+        with:
+          path: build
+          ref: ${{ steps.versioning.outputs.LATEST_TAG }}
       - id: test
         run: |
           cd build/${{ matrix.image }}
           
           /bin/bash ${GITHUB_WORKSPACE}/helpers/ci/versions.sh \
-            ${{ matrix.image }} \
-            ${{ steps.versioning.outputs.LATEST_TAG }}
+            ${{ matrix.image }} ${{ steps.versioning.outputs.LATEST_TAG }}
   #      - uses: actions/checkout@v2
   #        with:
   #          ref: ${{ steps.versioning.outputs.LATEST_TAG }}

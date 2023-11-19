@@ -24,7 +24,8 @@ jobs:
       - id: versioning
         run: /bin/bash .github/scripts/get-tag.sh ${{ matrix.image }}
       - uses: actions/checkout@v2
-        ref: ${{ steps.versioning.outputs.LATEST_TAG }}
+        with:
+          ref: ${{ steps.versioning.outputs.LATEST_TAG }}
   #  versioning:
   #    steps:
   #      - name: Checkout the Repository

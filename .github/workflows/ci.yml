@@ -32,6 +32,7 @@ jobs:
 
       - id: versioning
         run: |
+          env
           ls -lh
           pwd
           cd build

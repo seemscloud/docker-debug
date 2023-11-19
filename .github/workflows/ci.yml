@@ -3,11 +3,13 @@ name: "build-debug"
 on:
   push:
     tags:
-      - 'v[0-9]+.[0-9]+.[0-9]+'
+      - '[a-z0-9]{3,}-v[0-9]+.[0-9]+.[0-9]+'
 
 jobs:
   versioning:
     runs-on: ubuntu-latest
+    outputs:
+      LATEST_TAG: ${{ steps.versioning.outputs.LATEST_TAG }}
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
@@ -23,11 +25,24 @@ jobs:
   #        with:
   #          push: true
   #          context: debug
-  #          tags: seemscloud/debug:${{ steps.versioning.outputs.TAG }}
+  #          tags: seemscloud/debug:${{ steps.versioning.outputs.LATEST_TAG }}
   build-debug:
     runs-on: ubuntu-latest
     needs: [ versioning ]
     steps:
-      - name: Versioning
+      - name: Tests
+        env:
+          VERSION_TAG: ${{ needs.versioning.outputs.LATEST_TAG }}
         id: versioning
-        run: ls -lh
+        run: echo "${VERSION_TAG}"
+#      - name: Check out the repo
+#        uses: actions/checkout@v2
+#      - name: Versioning
+#        id: versioning
+#        run: |
+#          cd images/debug
+#
+#          git config --global user.name 'Versioning'
+#          git config --global user.email 'contact@seems.cloud'
+#          git commit -am "Automated report"
+#          git push

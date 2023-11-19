@@ -32,13 +32,8 @@ jobs:
 
       - id: versioning
         run: |
-          env
-          ls -lh
-          pwd
           cd build
-          ls -lh
-          pwd
-          /bin/bash ${HOME}/helpers/ci/get-tag.sh ${{ matrix.image }}
+          /bin/bash ${GITHUB_WORKSPACE}/helpers/ci/get-tag.sh ${{ matrix.image }}
   
   
 

@@ -32,8 +32,9 @@ jobs:
 
       - id: versioning
         run: |
-          cd build
-          /bin/bash ${PWD}/helpers/.github/scripts/get-tag.sh ${{ matrix.image }}
+          env
+#          cd build
+#          /bin/bash ${PWD}/build/.github/scripts/get-tag.sh ${{ matrix.image }}
   
   
 

@@ -26,6 +26,8 @@ jobs:
       - uses: actions/checkout@v2
         with:
           ref: ${{ steps.versioning.outputs.LATEST_TAG }}
+      - run: |
+          /bin/bash .github/scripts/versions.sh ${{ steps.versioning.outputs.LATEST_TAG }}
   #  versioning:
   #    steps:
   #      - name: Checkout the Repository

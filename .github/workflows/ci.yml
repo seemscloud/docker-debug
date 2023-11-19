@@ -54,4 +54,5 @@ jobs:
         run: |
           cd build/${{ matrix.image }}
           
-          /bin/bash ${GITHUB_WORKSPACE}/helpers/ci/docker/build-push-version.sh ${{ matrix.image }} ${{ steps.versioning.outputs.VERSION_TAG }}
+          /bin/bash ${GITHUB_WORKSPACE}/helpers/ci/docker/build-push-version.sh \
+            ${{ matrix.image }} ${{ steps.versioning.outputs.VERSION_TAG }}
